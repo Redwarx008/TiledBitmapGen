@@ -10,10 +10,10 @@ namespace TiledBitmapGen.Models
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct Config
     {
-        public string FileName;
-        public int TileSize;
-        public bool IsHeightmap;
-        public float MinHeight;
-        public float MaxHeight;
+        public string fileName;
+        public int tileSize;
+        public bool isHeightmap;
+        public float minHeight;
+        public float maxHeight;
     }
 }

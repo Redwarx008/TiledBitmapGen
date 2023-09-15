@@ -3,12 +3,12 @@
         xmlns:vm="using:TiledBitmapGen.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="310" d:DesignHeight="200"
+        mc:Ignorable="d" d:DesignWidth="310" d:DesignHeight="300"
 		Width="305"
 		SizeToContent="Height"
         x:Class="TiledBitmapGen.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-		x:CompileBindings="True"
+		x:CompileBindings="False"
         Icon="/Assets/avalonia-logo.ico"
         Title="TiledBitmapGen">
 
@@ -25,11 +25,11 @@
 				VerticalContentAlignment="Center"
 				DockPanel.Dock="Bottom"
 				Margin="5,5"
-				Command="{Binding GenerateCommand}">
+				Command="{Binding Generate}">
 			Generate
 		</Button>
 		<Grid ColumnDefinitions="*, *, *"
-			  RowDefinitions="Auto, Auto, Auto, Auto">
+			  RowDefinitions="Auto, Auto, Auto, Auto, Auto">
 			<!--file path-->
 			<TextBlock Margin="5,0,5,0"
 					   VerticalAlignment="Center"
@@ -60,10 +60,8 @@
 			<ComboBox Grid.Row="1"
 					 Grid.Column="1"
 					 Margin="0,2.5"
-					 SelectedIndex="2">
-				<ComboBoxItem>64</ComboBoxItem>
-				<ComboBoxItem>128</ComboBoxItem>
-				<ComboBoxItem>256</ComboBoxItem>
+					 ItemsSource="{Binding TileSizeCandidates}"
+					 SelectedIndex="{Binding TileSizeSelectedIndex, Mode=TwoWay}">
 			</ComboBox>
 			<!--is heightmap-->
 			<CheckBox Grid.Row="2"
@@ -86,17 +84,42 @@
 					 Grid.Column="1"
 					 Watermark="Min"
 					 IsEnabled="{Binding IsHeightmap}"
+					 Text="{Binding MinHeight, Mode=TwoWay}" 
 					 Margin="0,2.5,2.5,0">
 			</TextBox>
 			<TextBox Grid.Row="3"
 					 Grid.Column="2"
 					 Watermark="Max"
 					 IsEnabled="{Binding IsHeightmap}"
+					 Text="{Binding MaxHeight, Mode=TwoWay}"
 					 Margin="2.5,2.5,2.5,0">
-
 			</TextBox>
+			<!--error output-->
+			<ScrollViewer Grid.Row="4"
+						  Grid.ColumnSpan="3"
+						  MaxHeight="100"
+						  VerticalScrollBarVisibility="Auto"
+						  Margin="5,5">
+				<ItemsControl ItemsSource="{Binding ErrorMessages}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Margin="2.5,2.5"
+										Orientation="Horizontal">
+								<TextBlock Foreground="Red">
+									<Run Text="Error "/>
+									<Run Text="{Binding Line}"/>
+								</TextBlock>
+								<TextBlock Margin="5,0"
+										   Foreground="Red"
+										   Text="{Binding Message}">
+									
+								</TextBlock>
+							</StackPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</ScrollViewer>
 		</Grid>
-			
 	</DockPanel>
 
 </Window>
