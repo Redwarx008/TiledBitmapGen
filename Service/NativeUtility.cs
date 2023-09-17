@@ -8,14 +8,12 @@ using TiledBitmapGen.Models;
 
 namespace TiledBitmapGen.Service
 {
-    internal partial class NativeUtility
+    internal class NativeUtility
     {
         [DllImport("TildBitMapLib.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool Create(Config config);
 
-        [LibraryImport("TildBitMapLib.dll", StringMarshalling = StringMarshalling.Custom, StringMarshallingCustomType = typeof(System.Runtime.InteropServices.Marshalling.AnsiStringMarshaller))]
-        [UnmanagedCallConv(CallConvs = new Type[] { typeof(System.Runtime.CompilerServices.CallConvCdecl) })]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool GetImgInfo(string fileName, ref int nChannel, ref int bitDepth);
+        [DllImport("TildBitMapLib.dll", CallingConvention = CallingConvention.Cdecl, CharSet=CharSet.Ansi)]
+        public static extern bool GetImgInfo(string fileName, ref int nChannel, ref int bitDepth);
     }
 }

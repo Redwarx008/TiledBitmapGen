@@ -12,7 +12,10 @@ namespace TiledBitmapGen.Models
     {
         public string fileName;
         public int tileSize;
+        [MarshalAs(UnmanagedType.U1)]
         public bool isHeightmap;
+        [MarshalAs(UnmanagedType.U1)]
+        public bool createNormalmap;
         public float minHeight;
         public float maxHeight;
     }

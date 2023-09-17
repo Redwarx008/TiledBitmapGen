@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TiledBitmapGen": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

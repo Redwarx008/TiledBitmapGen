@@ -6,9 +6,10 @@
         mc:Ignorable="d" d:DesignWidth="310" d:DesignHeight="300"
 		Width="305"
 		SizeToContent="Height"
+		WindowStartupLocation="CenterScreen"
         x:Class="TiledBitmapGen.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-		x:CompileBindings="False"
+		x:CompileBindings="True"
         Icon="/Assets/avalonia-logo.ico"
         Title="TiledBitmapGen">
 
@@ -63,16 +64,28 @@
 					 ItemsSource="{Binding TileSizeCandidates}"
 					 SelectedIndex="{Binding TileSizeSelectedIndex, Mode=TwoWay}">
 			</ComboBox>
-			<!--is heightmap-->
-			<CheckBox Grid.Row="2"
-					  Grid.Column="0"
-					  Grid.ColumnSpan="2"
-					  HorizontalAlignment="Left"
-					  Margin="5,2.5"
-					  IsEnabled="False"
-					  IsChecked="{Binding IsHeightmap, Mode=OneWay}">
-				Is Heightmap
-			</CheckBox>
+			
+			<StackPanel Grid.Row="2"
+						Grid.ColumnSpan="3"
+						Orientation="Horizontal"
+						Margin="5,2.5,2.5,2.5">
+				<!--is heightmap-->
+				<CheckBox 
+						  HorizontalAlignment="Left"
+						  Margin="0,0,0,0"
+						  IsEnabled="False"
+						  IsChecked="{Binding IsHeightmap, Mode=OneWay}">
+					Is Heightmap
+				</CheckBox>
+				<CheckBox 
+						  HorizontalAlignment="Left"
+						  Margin="5,0,0,0"
+						  IsVisible="{Binding IsHeightmap, Mode=OneWay}"
+						  IsChecked="{Binding GenerateNormalmap, Mode=TwoWay}">
+					Generate Normalmap
+				</CheckBox>
+			</StackPanel>
+					  
 			<!--for heighmap ,specify height range-->
 			<TextBlock Grid.Row="3"
 					   HorizontalAlignment="Left"

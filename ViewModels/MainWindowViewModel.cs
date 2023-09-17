@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data;
 using Avalonia.Metadata;
 using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
@@ -17,44 +18,19 @@ using TiledBitmapGen.Service;
 
 namespace TiledBitmapGen.ViewModels
 {
-    public class DelegateCommand : ICommand
-    {
-        private readonly Action _executeAction;
-        private readonly Func<bool> _canExecuteAction;
-
-        public DelegateCommand(Action executeAction, Func<bool> canExecuteAction)
-        {
-            _executeAction = executeAction;
-            _canExecuteAction = canExecuteAction;
-        }
-
-        public void Execute(object parameter) => _executeAction();
-
-        public bool CanExecute(object parameter) => _canExecuteAction?.Invoke() ?? true;
-
-        public event EventHandler CanExecuteChanged;
-
-        public void InvokeCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-    }
     public partial class MainWindowViewModel : ViewModelBase
     {
         #region property
-        private string _filePath = string.Empty;
-        public string FilePath
-        {
-            get => _filePath;
-            set => SetProperty(ref _filePath, value);
-        }
 
+        [ObservableProperty]
+        private string _filePath = string.Empty;
+
+
+        [ObservableProperty]    
         private bool _isHeightmap = false;
-        public bool IsHeightmap
-        {
-            get => _isHeightmap;
-            set
-            {
-                SetProperty(ref _isHeightmap, value);
-            }
-        }
+
+        [ObservableProperty]    
+        private bool _generateNormalmap = true;
 
         public int[] TileSizeCandidates { get; }
 
@@ -113,7 +89,7 @@ namespace TiledBitmapGen.ViewModels
 
             int nChannel = 0;
             int bitDepth = 0;
-            bool res = await Task.Run(() => NativeUtility.GetImgInfo(_filePath, ref nChannel, ref bitDepth));
+            bool res = await Task.Run(() => NativeUtility.GetImgInfo(FilePath, ref nChannel, ref bitDepth));
             if (!res)
             {
                 Error("Get image info failed.");
@@ -131,33 +107,35 @@ namespace TiledBitmapGen.ViewModels
             }
         }
 
-        private ICommand? _generateCommand;
-        public ICommand GenerateCommand => _generateCommand ??= new DelegateCommand(Generate, CanGenerate);
-
-        private void Generate()
+        public void Generate(object? parameter)
         {
             Config config = new Config()
             {
                 fileName = FilePath,
                 isHeightmap = IsHeightmap,
+                createNormalmap = GenerateNormalmap,
                 tileSize = TileSizeCandidates[_tileSizeSelectedIndex],
                 minHeight = float.Parse(MinHeight),
                 maxHeight = float.Parse(MaxHeight),
             };
+            NativeUtility.Create(config);
         }
-        [DependsOn(nameof(FilePath))]   
-        private bool CanGenerate()
+        [DependsOn(nameof(MinHeight))]
+        [DependsOn(nameof(MaxHeight))]  
+        [DependsOn(nameof(IsHeightmap))]
+        [DependsOn(nameof(FilePath))]
+        private bool CanGenerate(object? parameter)
         {
-            //if (IsHeightmap)
-            //{
-            //    return !string.IsNullOrEmpty(MinHeight) || !string.IsNullOrEmpty(MaxHeight);
-            //}
-            if (FilePath.Length > 0) 
+            if (FilePath.Length == 0)
             {
-                return true;
-            } 
-            else
-            { return false; }   
+                return false;
+            }
+            if (IsHeightmap)
+            {
+                if (string.IsNullOrEmpty(MinHeight) || string.IsNullOrEmpty(MaxHeight))
+                    return false;
+            }
+            return true;   
         }
         #endregion
         public MainWindowViewModel()
