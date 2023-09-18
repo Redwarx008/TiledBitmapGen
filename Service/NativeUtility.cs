@@ -14,6 +14,6 @@ namespace TiledBitmapGen.Service
         public static extern bool Create(Config config);
 
         [DllImport("TildBitMapLib.dll", CallingConvention = CallingConvention.Cdecl, CharSet=CharSet.Ansi)]
-        public static extern bool GetImgInfo(string fileName, ref int nChannel, ref int bitDepth);
+        public static extern bool GetImgInfo(string fileName, ref int width, ref int height, ref int nChannel, ref int bitDepth);
     }
 }

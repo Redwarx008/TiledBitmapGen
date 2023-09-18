@@ -89,7 +89,9 @@ namespace TiledBitmapGen.ViewModels
 
             int nChannel = 0;
             int bitDepth = 0;
-            bool res = await Task.Run(() => NativeUtility.GetImgInfo(FilePath, ref nChannel, ref bitDepth));
+            int width = 0;
+            int height = 0; 
+            bool res = await Task.Run(() => NativeUtility.GetImgInfo(FilePath, ref width, ref height, ref nChannel, ref bitDepth));
             if (!res)
             {
                 Error("Get image info failed.");

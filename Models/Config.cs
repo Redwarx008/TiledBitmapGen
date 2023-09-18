@@ -18,5 +18,7 @@ namespace TiledBitmapGen.Models
         public bool createNormalmap;
         public float minHeight;
         public float maxHeight;
+        public int leafQuadTreeNodeSize;
+        public int lodLevelCount;
     }
 }
