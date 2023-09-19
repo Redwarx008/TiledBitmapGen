@@ -3,7 +3,7 @@
         xmlns:vm="using:TiledBitmapGen.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="310" d:DesignHeight="300"
+        mc:Ignorable="d" d:DesignWidth="310" d:DesignHeight="350"
 		Width="305"
 		SizeToContent="Height"
 		WindowStartupLocation="CenterScreen"
@@ -40,13 +40,13 @@
 			</Setter>
 		</Style>
 	</Window.Styles>
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
 
-	
+
 	<DockPanel>
 		<!--generate button-->
 		<Button HorizontalAlignment="Right"
@@ -54,11 +54,11 @@
 				VerticalContentAlignment="Center"
 				DockPanel.Dock="Bottom"
 				Margin="5,5"
-				Command="{Binding Generate}">
+				Command="{Binding GenerateCommand}">
 			Generate
 		</Button>
 		<Grid ColumnDefinitions="*, *, *"
-			  RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+			  RowDefinitions="Auto, Auto, Auto, Auto, Auto">
 			<!--file path-->
 			<TextBlock Margin="5,0,5,0"
 					   VerticalAlignment="Center"
@@ -66,11 +66,11 @@
 				File Path
 			</TextBlock>
 			<TextBox Grid.Column="1"
-					 Margin="0,5,0,2.5"
+					 Margin="0,5,0,5"
 					 Watermark="File name"
 					 Text="{Binding FilePath, Mode=TwoWay}"
 					 >
-				
+
 			</TextBox>
 			<Button Grid.Column="2"
 					Margin="5,5"
@@ -92,35 +92,14 @@
 					 ItemsSource="{Binding TileSizeCandidates}"
 					 SelectedIndex="{Binding TileSizeSelectedIndex, Mode=TwoWay}">
 			</ComboBox>
-			
-			<StackPanel Grid.Row="2"
-						Grid.ColumnSpan="3"
-						Orientation="Horizontal"
-						Margin="5,2.5,2.5,2.5">
-				<!--is heightmap-->
-				<CheckBox 
-						  HorizontalAlignment="Left"
-						  Margin="0,0,0,0"
-						  IsEnabled="False"
-						  IsChecked="{Binding IsHeightmap, Mode=OneWay}">
-					Is Heightmap
-				</CheckBox>
-				<CheckBox 
-						  HorizontalAlignment="Left"
-						  Margin="5,0,0,0"
-						  IsVisible="{Binding IsHeightmap, Mode=OneWay}"
-						  IsChecked="{Binding GenerateNormalmap, Mode=TwoWay}">
-					Generate Normalmap
-				</CheckBox>
-			</StackPanel>
-					  
-			<HeaderedContentControl Grid.Row="3"
+
+			<HeaderedContentControl Grid.Row="2"
 									Grid.ColumnSpan="3"
 									Header="Heightmap Config"
 									Margin="5,5"
 									Background="WhiteSmoke">
 				<Grid Margin="5,5"
-					  RowDefinitions="Auto, Auto"
+					  RowDefinitions="Auto, Auto, Auto, Auto"
 					  ColumnDefinitions="*, *, *">
 					<!--for heighmap ,specify height range-->
 					<TextBlock Grid.Row="0"
@@ -143,21 +122,45 @@
 							 Text="{Binding MaxHeight, Mode=TwoWay}"
 							 Margin="2.5,2.5,2.5,0">
 					</TextBox>
-					<!--leaf Quad Tree Node Size-->
+					<!--leafQuadTreeNodeSize-->
 					<TextBlock Grid.Row="1"
 							   HorizontalAlignment="Left"
 							   VerticalAlignment="Center">
 						LeafNodeSize
 					</TextBlock>
 					<ComboBox Grid.Row="1"
-							 Grid.Column="1"
-							 Margin="0, 5, 2.5,2.5"
-							 IsEnabled="{Binding IsHeightmap}">
-						
+							Grid.Column="1"
+							Margin="0, 5, 2.5,2.5"
+							ItemsSource="{Binding LeafNodeSizeCandidates}"
+							SelectedIndex="{Binding LeafNodeSizeSelectedIndex, Mode=TwoWay}"
+							IsEnabled="{Binding IsHeightmap}">
+
 					</ComboBox>
+					<!--LodLevelCount-->
+					<TextBlock Grid.Row="2"
+							   HorizontalAlignment="Left"
+							   VerticalAlignment="Center">
+						LodlevelCount
+					</TextBlock>
+					<TextBox Grid.Row="2"
+							 Grid.Column="1"
+							 Margin="0,2.5,2.5,0"
+							 Text="{Binding LodLevelCount, Mode=OneWay}"
+							 IsEnabled="False">
+						
+					</TextBox>
+					<CheckBox Grid.Row="3"
+							  Grid.Column="0"
+							  Grid.ColumnSpan="2"
+							  HorizontalAlignment="Left"
+							  Margin="0,2.5,0,0"
+							  IsEnabled="{Binding IsHeightmap, Mode=OneWay}"
+							  IsChecked="{Binding GenerateNormalmap, Mode=TwoWay}">
+						Generate Normalmap
+					</CheckBox>
 				</Grid>
 			</HeaderedContentControl>
-			<HeaderedContentControl Grid.Row="4"
+			<HeaderedContentControl Grid.Row="3"
 									Grid.ColumnSpan="2"
 									Header="Texture Info"
 									Background="WhiteSmoke"
@@ -172,7 +175,8 @@
 					</TextBlock>
 					<TextBox Grid.Column="1"
 							 Margin="0,2.5"
-							 IsEnabled="False">
+							 IsEnabled="False"
+							 Text="{Binding Resolution}">
 					</TextBox>
 					<!--Channels-->
 					<TextBlock Grid.Row="1"
@@ -183,8 +187,9 @@
 					<TextBox Grid.Row="1"
 							 Grid.Column="1"
 							 Margin="0,2.5"
-							 IsEnabled="False">
-						
+							 IsEnabled="False"
+							 Text="{Binding Channels}">
+
 					</TextBox>
 					<!--bitDepth-->
 					<TextBlock Grid.Row="2"
@@ -195,13 +200,14 @@
 					<TextBox Grid.Row="2"
 							 Grid.Column="1"
 							 Margin="0, 2.5"
-							 IsEnabled="False">
-						
+							 IsEnabled="False"
+							 Text="{Binding BitDepth}">
+
 					</TextBox>
 				</Grid>
 			</HeaderedContentControl>
 			<!--error output-->
-			<ScrollViewer Grid.Row="5"
+			<ScrollViewer Grid.Row="4"
 						  Grid.ColumnSpan="3"
 						  MaxHeight="100"
 						  VerticalScrollBarVisibility="Auto"
@@ -218,7 +224,7 @@
 								<TextBlock Margin="5,0"
 										   Foreground="Red"
 										   Text="{Binding Message}">
-									
+
 								</TextBlock>
 							</StackPanel>
 						</DataTemplate>
