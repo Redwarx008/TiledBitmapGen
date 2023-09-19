@@ -37,6 +37,9 @@ namespace TiledBitmapGen.ViewModels
         private bool _generateNormalmap = true;
 
         [ObservableProperty]
+        private int _tileBorderSizeSelectedIndex = 0;
+
+        [ObservableProperty]
         private int _tileSizeSelectedIndex = 2;
 
         private int _leafNodeSizeSelectedIndex = 2;
@@ -166,10 +169,10 @@ namespace TiledBitmapGen.ViewModels
             };
             NativeUtility.Create(config);
         }
-        [DependsOn(nameof(MinHeight))]
-        [DependsOn(nameof(MaxHeight))]  
-        [DependsOn(nameof(IsHeightmap))]
-        [DependsOn(nameof(FilePath))]
+        //[DependsOn(nameof(MinHeight))]
+        //[DependsOn(nameof(MaxHeight))]  
+        //[DependsOn(nameof(IsHeightmap))]
+        //[DependsOn(nameof(FilePath))]
         private bool CanGenerate()
         {
             if (FilePath.Length == 0)
@@ -190,11 +193,14 @@ namespace TiledBitmapGen.ViewModels
 
         public int[] LeafNodeSizeCandidates { get; }
 
+        public int[] TileBorderSizeCandidates { get; }
+
         public MainWindowViewModel()
         {
             ErrorMessages = new ObservableCollection<ErrorMessage>();
-            TileSizeCandidates = new int[3] { 64, 128, 256 };
+            TileSizeCandidates = new int[4] { 64, 128, 256, 512};
             LeafNodeSizeCandidates = new int[3] { 8, 16, 32 };
+            TileBorderSizeCandidates = new int[3] { 1, 2, 4 };
         }
 
         private void Error(string message)

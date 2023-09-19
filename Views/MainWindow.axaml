@@ -3,7 +3,7 @@
         xmlns:vm="using:TiledBitmapGen.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="310" d:DesignHeight="350"
+        mc:Ignorable="d" d:DesignWidth="310" d:DesignHeight="400"
 		Width="305"
 		SizeToContent="Height"
 		WindowStartupLocation="CenterScreen"
@@ -58,7 +58,7 @@
 			Generate
 		</Button>
 		<Grid ColumnDefinitions="*, *, *"
-			  RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+			  RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
 			<!--file path-->
 			<TextBlock Margin="5,0,5,0"
 					   VerticalAlignment="Center"
@@ -77,22 +77,47 @@
 					Command="{Binding OpenFileCommand}">
 				Open
 			</Button>
+			<!--tile config-->
+			<HeaderedContentControl Grid.Row="1"
+									Grid.ColumnSpan="3"
+									Header="Tile Config"
+									Margin="5,5"
+									Background="WhiteSmoke">
+				<Grid Margin="5,5"
+					  RowDefinitions="Auto, Auto"
+					  ColumnDefinitions="*,*,*">
+					<!--tile size-->
+					<TextBlock Grid.Row="0"
+							   Grid.Column="0"
+							   HorizontalAlignment="Left"
+							   Margin="5,0,0,0"
+							   VerticalAlignment="Center">
+						Tile Size
+					</TextBlock>
+					<ComboBox Grid.Row="0"
+							 Grid.Column="1"
+							 Margin="0,2.5"
+							 ItemsSource="{Binding TileSizeCandidates}"
+							 SelectedIndex="{Binding TileSizeSelectedIndex, Mode=TwoWay}">
+					</ComboBox>
+					<!--tile border-->
+					<TextBlock Grid.Row="1"
+							   Margin="5,0,0,0"
+							   HorizontalAlignment="Left"
+							   VerticalAlignment="Center">
+						Tile Border
+					</TextBlock>
+					<ComboBox Grid.Row="1"
+							  Grid.Column="1"
+							  ItemsSource="{Binding TileBorderSizeCandidates}"
+							  SelectedIndex="{Binding TileBorderSizeSelectedIndex, Mode=TwoWay}"
+							  Margin="0,2.5">
+						
+					</ComboBox>
+				</Grid>
+			</HeaderedContentControl>
 
-			<!--tile size-->
-			<TextBlock Grid.Row="1"
-					   Grid.Column="0"
-					   HorizontalAlignment="Left"
-					   Margin="5,0,0,0"
-					   VerticalAlignment="Center">
-				Tile Size
-			</TextBlock>
-			<ComboBox Grid.Row="1"
-					 Grid.Column="1"
-					 Margin="0,2.5"
-					 ItemsSource="{Binding TileSizeCandidates}"
-					 SelectedIndex="{Binding TileSizeSelectedIndex, Mode=TwoWay}">
-			</ComboBox>
-
+			<!--heightmap config-->
 			<HeaderedContentControl Grid.Row="2"
 									Grid.ColumnSpan="3"
 									Header="Heightmap Config"
@@ -101,7 +126,7 @@
 				<Grid Margin="5,5"
 					  RowDefinitions="Auto, Auto, Auto, Auto"
 					  ColumnDefinitions="*, *, *">
-					<!--for heighmap ,specify height range-->
+					<!--specify height range-->
 					<TextBlock Grid.Row="0"
 							   HorizontalAlignment="Left"
 							   VerticalAlignment="Center"
@@ -161,12 +186,12 @@
 				</Grid>
 			</HeaderedContentControl>
 			<HeaderedContentControl Grid.Row="3"
-									Grid.ColumnSpan="2"
+									Grid.ColumnSpan="3"
 									Header="Texture Info"
 									Background="WhiteSmoke"
 									Margin="5,5">
 				<Grid RowDefinitions="Auto, Auto, Auto"
-					  ColumnDefinitions="*, *"
+					  ColumnDefinitions="*, *, *"
 					  Margin="5,5">
 					<!--Resolution-->
 					<TextBlock HorizontalAlignment="Left"
