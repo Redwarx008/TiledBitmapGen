@@ -109,8 +109,8 @@
 					</TextBlock>
 					<ComboBox Grid.Row="1"
 							  Grid.Column="1"
-							  ItemsSource="{Binding TileBorderSizeCandidates}"
-							  SelectedIndex="{Binding TileBorderSizeSelectedIndex, Mode=TwoWay}"
+							  ItemsSource="{Binding TileBorderWidthCandidates}"
+							  SelectedIndex="{Binding TileBorderWidthSelectedIndex, Mode=TwoWay}"
 							  Margin="0,2.5">
 						
 					</ComboBox>

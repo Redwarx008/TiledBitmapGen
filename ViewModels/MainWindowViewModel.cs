@@ -37,7 +37,7 @@ namespace TiledBitmapGen.ViewModels
         private bool _generateNormalmap = true;
 
         [ObservableProperty]
-        private int _tileBorderSizeSelectedIndex = 0;
+        private int _tileBorderWidthSelectedIndex = 0;
 
         [ObservableProperty]
         private int _tileSizeSelectedIndex = 2;
@@ -151,7 +151,7 @@ namespace TiledBitmapGen.ViewModels
             }
         }
 
-        private IRelayCommand _generateCommand;
+        private IRelayCommand? _generateCommand;
         public IRelayCommand GenerateCommand => _generateCommand ??= new RelayCommand(Generate, CanGenerate);
 
         private void Generate()
@@ -193,14 +193,14 @@ namespace TiledBitmapGen.ViewModels
 
         public int[] LeafNodeSizeCandidates { get; }
 
-        public int[] TileBorderSizeCandidates { get; }
+        public int[] TileBorderWidthCandidates { get; }
 
         public MainWindowViewModel()
         {
             ErrorMessages = new ObservableCollection<ErrorMessage>();
             TileSizeCandidates = new int[4] { 64, 128, 256, 512};
             LeafNodeSizeCandidates = new int[3] { 8, 16, 32 };
-            TileBorderSizeCandidates = new int[3] { 1, 2, 4 };
+            TileBorderWidthCandidates = new int[3] { 1, 2, 4 };
         }
 
         private void Error(string message)
