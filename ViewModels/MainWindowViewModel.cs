@@ -25,9 +25,19 @@ namespace TiledBitmapGen.ViewModels
 
         #region property
 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(GenerateCommand))]
         private string _filePath = string.Empty;
+
+        public string FilePath
+        {
+            get => _filePath;
+            set
+            {
+                if (SetProperty(ref _filePath, value))
+                {
+                    GenerateCommand.NotifyCanExecuteChanged();  
+                }
+            }
+        }
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(GenerateCommand))] 
@@ -162,8 +172,8 @@ namespace TiledBitmapGen.ViewModels
                 isHeightmap = IsHeightmap,
                 createNormalmap = GenerateNormalmap,
                 tileSize = TileSizeCandidates[TileSizeSelectedIndex],
-                minHeight = float.Parse(MinHeight),
-                maxHeight = float.Parse(MaxHeight),
+                minHeight = string.IsNullOrEmpty(MinHeight)? 0 : float.Parse(MinHeight),
+                maxHeight = string.IsNullOrEmpty(MaxHeight) ? 0 : float.Parse(MaxHeight),
                 lodLevelCount = int.Parse(LodLevelCount),
                 leafQuadTreeNodeSize = LeafNodeSizeCandidates[LeafNodeSizeSelectedIndex],
                 tileBorderWidth = TileBorderWidthCandidates[TileBorderWidthSelectedIndex],
