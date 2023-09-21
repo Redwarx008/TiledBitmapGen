@@ -15,7 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="TildBitMapLib.dll">
+    <None Remove="PagedTextureLib.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="PagedTextureLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

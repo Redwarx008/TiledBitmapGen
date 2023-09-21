@@ -165,7 +165,8 @@ namespace TiledBitmapGen.ViewModels
                 minHeight = float.Parse(MinHeight),
                 maxHeight = float.Parse(MaxHeight),
                 lodLevelCount = int.Parse(LodLevelCount),
-                leafQuadTreeNodeSize = LeafNodeSizeCandidates[LeafNodeSizeSelectedIndex]
+                leafQuadTreeNodeSize = LeafNodeSizeCandidates[LeafNodeSizeSelectedIndex],
+                tileBorderWidth = TileBorderWidthCandidates[TileBorderWidthSelectedIndex],
             };
             NativeUtility.Create(config);
         }

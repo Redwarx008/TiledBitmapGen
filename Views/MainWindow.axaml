@@ -11,7 +11,7 @@
         x:DataType="vm:MainWindowViewModel"
 		x:CompileBindings="True"
         Icon="/Assets/avalonia-logo.ico"
-        Title="TiledBitmapGen">
+        Title="PagedTextureGen">
 	<Window.Styles>
 		<Style Selector="HeaderedContentControl">
 			<Setter Property="Template">

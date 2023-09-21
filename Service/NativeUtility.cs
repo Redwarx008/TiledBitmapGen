@@ -10,10 +10,10 @@ namespace TiledBitmapGen.Service
 {
     internal class NativeUtility
     {
-        [DllImport("TildBitMapLib.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("PagedTextureLib.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool Create(Config config);
 
-        [DllImport("TildBitMapLib.dll", CallingConvention = CallingConvention.Cdecl, CharSet=CharSet.Ansi)]
+        [DllImport("PagedTextureLib.dll", CallingConvention = CallingConvention.Cdecl, CharSet=CharSet.Ansi)]
         public static extern bool GetImgInfo(string fileName, ref int width, ref int height, ref int nChannel, ref int bitDepth);
     }
 }
