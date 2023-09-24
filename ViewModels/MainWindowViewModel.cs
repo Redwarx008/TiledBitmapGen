@@ -118,6 +118,7 @@ namespace TiledBitmapGen.ViewModels
 
         private async Task OpenPngFile()
         {
+            clear();
             if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop ||
     desktop.MainWindow?.StorageProvider is not { } provider)
                 throw new NullReferenceException("Missing StorageProvider instance.");
@@ -143,7 +144,6 @@ namespace TiledBitmapGen.ViewModels
                 Error("Get image info failed.");
             }
 
-            LodLevelCount = CalcLodLevels(LeafNodeSizeCandidates[LeafNodeSizeSelectedIndex]).ToString();
             Resolution = $"{_width}x{_height}";
             Channels = nChannel.ToString();
             BitDepth = bitDepth.ToString(); 
@@ -153,6 +153,7 @@ namespace TiledBitmapGen.ViewModels
                 if (bitDepth == 16)
                 {
                     IsHeightmap = true;
+                    LodLevelCount = CalcLodLevels(LeafNodeSizeCandidates[LeafNodeSizeSelectedIndex]).ToString();
                 }
                 else
                 {
@@ -229,6 +230,16 @@ namespace TiledBitmapGen.ViewModels
                 ++lodLevelCount;
             }
             return lodLevelCount;   
+        }
+
+        private void clear()
+        {
+            MinHeight = string.Empty;   
+            MaxHeight = string.Empty;   
+            IsHeightmap = false;
+            LodLevelCount = string.Empty;
+            TileSizeSelectedIndex = 2;
+            TileBorderWidthSelectedIndex = 0;
         }
     }
 }
